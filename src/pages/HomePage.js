@@ -1,16 +1,26 @@
 import { useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import { useSelector } from "react-redux";
+import { selectAllRestaurants } from "../restaurants/restaurantSlice";
+import RestaurantCard from "../restaurants/RestaurantCard";
 
-export default function HomePage({ restaurantList }) {
+export default function HomePage() {
 const [restaurantFilter, setRestaurantFilter] = useState("All")
 
-let filteredRestaurants
+const restaurantList = useSelector(selectAllRestaurants);
+const fullState = useSelector((state) => state);
+console.log("FULL STATE:", fullState);
+
+if (!restaurantList) {
+    return <div>Loading...</div>;
+}
+
+let filteredRestaurants;
 if (restaurantFilter === "All") {
-    filteredRestaurants = restaurantList
+    filteredRestaurants = restaurantList;
 } else {
     filteredRestaurants = restaurantList.filter(
-    restaurant => restaurant.category === restaurantFilter
-    )
+    (restaurant) => restaurant.category === restaurantFilter
+    );
 }
 
 return (
@@ -35,8 +45,8 @@ return (
             All-You-Can-Eat
             </button>
         </div>
-        {filteredRestaurants.map(r => (
-        <RestaurantCard restaurant={r} />
+        {filteredRestaurants.map((r) => (
+        <RestaurantCard key={r.id} restaurant={r} />
     ))}
     </div>
 );

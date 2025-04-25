@@ -1,15 +1,10 @@
-import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom"
+import { Routes, Route, Link } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import HomePage from "./components/HomePage";
-import RandomPage from "./components/RandomPage";
-import RestaurantPage from "./components/RestaurantPage";
-import { TEST_RESTAURANT } from "./components/TEST_RESTAURANT";
-
+import HomePage from "./pages/HomePage";
+import RandomPage from "./pages/RandomPage";
+import RestaurantPage from "./pages/RestaurantPage";
 
 function App() {
-  const [restaurantList, setRestaurantList] = useState(TEST_RESTAURANT);
-
   return (
     <div>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -23,13 +18,14 @@ function App() {
       </Navbar>
       <Container className="mt-4">
         <Routes>
-          <Route path="/" element={<HomePage restaurantList={restaurantList} />} />
-          <Route path="/random" element={<RandomPage restaurantList={restaurantList}/>} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/random" element={<RandomPage />} />
           <Route path="/restaurant/:restaurantId" element={<RestaurantPage />} />
         </Routes>
       </Container>   
     </div>
-  )
+  );
 }
 
 export default App;
+
