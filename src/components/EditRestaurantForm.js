@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addRestaurant, deleteRestaurant, selectAllRestaurants } from '../restaurants/restaurantSlice';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-
 const EditRestaurantForm = () => {
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [category, setCategory] = useState('');
+    const [deleteMessage, setDeleteMessage] = useState('');
 
     const dispatch = useDispatch();
     const restaurantList = useSelector(selectAllRestaurants);
@@ -29,16 +29,25 @@ const EditRestaurantForm = () => {
             category: category.trim()
         }));
 
-        // Clear the form
         setName('');
         setType('');
         setCategory('');
     };
 
-    //Delete name from restaurantList
     const handleDelete = (nameToDelete) => {
         dispatch(deleteRestaurant(nameToDelete));
+        setDeleteMessage(`"${nameToDelete}" has been deleted.`);
     };
+
+    useEffect(() => {
+        if (deleteMessage) {
+            const timer = setTimeout(() => {
+                setDeleteMessage('');
+            }, 3000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [deleteMessage]);
 
     return (
         <>
@@ -75,6 +84,12 @@ const EditRestaurantForm = () => {
                 <button type="submit" className="btn btn-success">Add Restaurant</button>
             </form>
 
+            {/* Show delete message */}
+            {deleteMessage && (
+                <div className="alert alert-warning text-center">{deleteMessage}</div>
+            )}
+
+            {/* Dropdown to delete restaurants */}
             {restaurantList.length > 0 && (
                 <DropdownButton
                     as={ButtonGroup}
@@ -82,9 +97,9 @@ const EditRestaurantForm = () => {
                     title="Delete a Restaurant"
                     className="mb-3"
                 >
-                    {restaurantList.map((restaurant, index) => (
+                    {restaurantList.map((restaurant) => (
                         <Dropdown.Item
-                            key={index}
+                            key={restaurant.id}
                             onClick={() => handleDelete(restaurant.name)}
                         >
                             {restaurant.name}
@@ -97,3 +112,4 @@ const EditRestaurantForm = () => {
 };
 
 export default EditRestaurantForm;
+
