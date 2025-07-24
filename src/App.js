@@ -3,6 +3,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import HomePage from "./pages/HomePage";
 import RandomPage from "./pages/RandomPage";
 import RestaurantPage from "./pages/RestaurantPage";
+import EditRestaurantForm from "./components/EditRestaurantForm";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/random" element={<RandomPage />} />
           <Route path="/restaurant/:restaurantId" element={<RestaurantPage />} />
+          <Route path="/edit" element={<EditRestaurantForm />} />
         </Routes>
       </Container>   
     </div>

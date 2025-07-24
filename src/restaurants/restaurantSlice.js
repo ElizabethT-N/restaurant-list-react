@@ -2,28 +2,36 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { TEST_RESTAURANT } from '../components/TEST_RESTAURANT';  
 
-// Initial state
 const initialState = {
     restaurantsArray: TEST_RESTAURANT
 };
 
-// Create slice
 const restaurantSlice = createSlice({
     name: 'restaurants',
     initialState,
-    reducers: {}
+    reducers: {
+        addRestaurant: (state, action) => {
+            const newRestaurant = {
+                id: action.payload.id || Date.now(),
+                ...action.payload
+            };
+            state.restaurantsArray.push(newRestaurant);
+        },
+        deleteRestaurant: (state, action) => {
+            state.restaurantsArray = state.restaurantsArray.filter(
+                (restaurant) => restaurant.name !== action.payload
+            );
+        }
+    }
 });
 
-// Export the reducer
+export const { addRestaurant, deleteRestaurant } = restaurantSlice.actions;
 export const restaurantReducer = restaurantSlice.reducer;
 
-// Base selector to get all restaurants
 const selectRestaurantsArray = (state) => state.restaurants.restaurantsArray;
 
-// Selector to get all restaurants
 export const selectAllRestaurants = selectRestaurantsArray;
 
-// ✅ Selector factory for getting a restaurant by ID (correctly memoized)
 export const selectRestaurantById = (restaurantId) =>
     createSelector(
         [selectRestaurantsArray],
@@ -33,7 +41,6 @@ export const selectRestaurantById = (restaurantId) =>
             )
     );
 
-// Selector to get the featured restaurant
 export const selectFeaturedRestaurant = createSelector(
     [selectRestaurantsArray],
     (restaurants) =>

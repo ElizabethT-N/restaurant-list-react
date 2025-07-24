@@ -2,7 +2,7 @@ export const TEST_RESTAURANT = [
 {
     id: 0,
     name: "New Super Pho",
-    rating: null,
+    rating: "null",
     type: "Vietnamese",
     category: "By-Plate",
 },
@@ -22,9 +22,9 @@ export const TEST_RESTAURANT = [
 },
 {
     id: 3,
-    name: "Churras",
+    name: "Gohan AYCE Buffet",
     rating: "null",
-    type: "Brazilian",
+    type: "Asian",
     category: "All-You-Can-Eat",
 },
 {
