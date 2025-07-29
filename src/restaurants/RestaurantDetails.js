@@ -1,4 +1,4 @@
-import { Card, CardText, CardBody } from 'reactstrap';
+
 
 const RestaurantDetail = ({ restaurant }) => {
     const { name, rating, type, category } = restaurant;
